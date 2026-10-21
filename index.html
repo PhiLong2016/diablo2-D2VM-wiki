@@ -1,174 +1,551 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Diablo II D2VM Wiki</title>
-  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diablo II Mod - Runeword Compendium</title>
+<style>
+    :root {
+        --bg-dark: #070709;
+        --bg-card: #0e0e12;
+        --bg-card-hover: #14141b;
+        --gold: #c7b377;
+        --gold-bright: #f0d88b;
+        --rune-orange: #ff9900;
+        --magic-blue: #6969ff;
+        --text-gray: #9a9a9a;
+        --text-light: #d8d8d8;
+        --border-dark: #2a241b;
+        --border-gold: #665633;
+        --red: #ff4d4d;
+        --green: #00e600;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      margin: 0;
-      background-color: #0d0d0d;
-      color: #e4d6a7;
-      font-family: 'Roboto', sans-serif;
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* Sidebar */
-    nav {
-      background-color: #1b1b1b;
-      width: 260px;
-      padding: 20px;
-      box-shadow: inset -1px 0 10px rgba(255, 0, 0, 0.15);
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      overflow-y: auto;
-    }
-
-    nav h2 {
-      font-family: 'UnifrakturCook', cursive;
-      color: #ffb347;
-      text-shadow: 0 0 6px #ff4500;
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    nav a {
-      display: block;
-      color: #e4d6a7;
-      text-decoration: none;
-      margin: 10px 0;
-      padding: 8px;
-      border-radius: 4px;
-      transition: background 0.3s;
-    }
-
-    nav a:hover {
-      background-color: rgba(255, 69, 0, 0.2);
-      color: #fff;
-    }
-
-    /* Main content */
-    main {
-      margin-left: 280px;
-      padding: 40px;
-      flex: 1;
+        background-color: var(--bg-dark);
+        background-image: radial-gradient(circle at 50% 0%, #1c1610 0%, #070709 70%);
+        color: var(--text-light);
+        font-family: 'Exocet', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
     }
 
     header {
-      font-family: 'UnifrakturCook', cursive;
-      font-size: 3rem;
-      color: #ffb347;
-      text-shadow: 0 0 10px #ff4500;
-      text-align: center;
-      margin-bottom: 20px;
+        max-width: 1300px;
+        margin: 0 auto 25px auto;
+        text-align: center;
+        border-bottom: 2px solid var(--border-gold);
+        padding-bottom: 18px;
     }
 
-    .section {
-      margin-bottom: 40px;
+    h1 {
+        color: var(--gold);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin: 0 0 8px 0;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 15px rgba(199, 179, 119, 0.25);
+        font-size: 2.2rem;
     }
 
-    h2 {
-      color: #ffb347;
-      border-bottom: 1px solid rgba(255, 180, 71, 0.3);
-      padding-bottom: 5px;
+    .subtitle {
+        color: var(--text-gray);
+        font-size: 0.95rem;
+        margin-bottom: 15px;
     }
 
-    p {
-      line-height: 1.6;
+    .controls {
+        max-width: 1300px;
+        margin: 0 auto 25px auto;
+        background: #101015;
+        border: 1px solid var(--border-gold);
+        padding: 15px;
+        border-radius: 4px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.7);
     }
 
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      font-size: 0.9em;
-      color: #777;
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        flex: 1;
     }
 
-    /* Scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
+    input[type="text"], select {
+        background: #060608;
+        color: var(--gold-bright);
+        border: 1px solid #443a24;
+        padding: 9px 13px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        border-radius: 3px;
+        outline: none;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 10px;
+
+    input[type="text"] {
+        flex: 1;
+        min-width: 240px;
     }
-  </style>
+
+    input[type="text"]:focus, select:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 6px rgba(199, 179, 119, 0.35);
+    }
+
+    .btn {
+        background: linear-gradient(180deg, #3a2e18 0%, #1f180b 100%);
+        color: var(--gold-bright);
+        border: 1px solid var(--gold);
+        padding: 9px 16px;
+        font-family: inherit;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 3px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+    }
+
+    .btn:hover {
+        background: linear-gradient(180deg, #524122 0%, #2e2410 100%);
+        box-shadow: 0 0 10px rgba(199, 179, 119, 0.4);
+    }
+
+    .stats-bar {
+        max-width: 1300px;
+        margin: 0 auto 15px auto;
+        color: var(--text-gray);
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .grid {
+        max-width: 1300px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 18px;
+    }
+
+    .rw-card {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-dark);
+        border-top: 2px solid var(--border-gold);
+        padding: 18px;
+        border-radius: 4px;
+        text-align: center;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.85), 0 4px 10px rgba(0,0,0,0.6);
+        transition: transform 0.15s ease, border-color 0.15s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: relative;
+    }
+
+    .rw-card:hover {
+        background-color: var(--bg-card-hover);
+        border-color: var(--gold);
+        transform: translateY(-2px);
+    }
+
+    .rw-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 0.7rem;
+        padding: 2px 6px;
+        border-radius: 2px;
+        font-family: sans-serif;
+        text-transform: uppercase;
+    }
+
+    .badge-active {
+        background: rgba(0, 230, 0, 0.12);
+        color: var(--green);
+        border: 1px solid rgba(0, 230, 0, 0.35);
+    }
+
+    .badge-inactive {
+        background: rgba(255, 77, 77, 0.12);
+        color: var(--red);
+        border: 1px solid rgba(255, 77, 77, 0.35);
+    }
+
+    .rw-title {
+        color: var(--gold);
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 4px 0 6px 0;
+        letter-spacing: 0.5px;
+    }
+
+    .rw-recipe {
+        color: var(--rune-orange);
+        font-weight: bold;
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    .rw-base {
+        color: var(--text-gray);
+        font-size: 0.9rem;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #262630;
+    }
+
+    .rw-base span {
+        color: var(--text-light);
+    }
+
+    .rw-props {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        color: var(--magic-blue);
+        font-size: 0.98rem;
+        line-height: 1.5;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 500;
+    }
+
+    .rw-props li {
+        margin-bottom: 3px;
+        text-shadow: 0 1px 2px #000;
+    }
+
+    @media (max-width: 600px) {
+        .grid { grid-template-columns: 1fr; }
+        h1 { font-size: 1.6rem; }
+    }
+</style>
 </head>
 <body>
-  <nav>
-    <h2>Diablo II Wiki</h2>
-    <a href="#intro">🏹 Giới thiệu</a>
-    <a href="#install">⚙️ Cài đặt mod</a>
-    <a href="#items">💎 Vật phẩm</a>
-    <a href="#skills">🔥 Kỹ năng</a>
-    <a href="#bosses">👹 Boss & Khu vực</a>
-    <a href="#about">📜 Về dự án</a>
-  </nav>
 
-  <main>
-    <header>Diablo II D2VM Mod Wiki</header>
+<header>
+    <h1>Diablo II Runeword Compendium</h1>
+    <div class="subtitle">Complete Mod Runeword Database (Extracted from Runes.txt, Properties.txt & Skills.txt)</div>
+</header>
 
-    <section id="intro" class="section">
-      <h2>🏹 Giới thiệu</h2>
-      <p>
-        Chào mừng bạn đến với <b>Diablo II D2VM Wiki</b> – nơi lưu trữ toàn bộ thông tin, hướng dẫn và nội dung liên quan đến bản mod <b>Diablo II: ESR / D2VM</b>.
-        Mod này mở rộng thế giới Sanctuary với hệ thống vật phẩm, kỹ năng, boss và vùng đất mới đầy thử thách.
-      </p>
-    </section>
+<div class="controls">
+    <div class="filter-group">
+        <input type="text" id="searchInput" placeholder="Search Runeword name, Rune (e.g. Zod, Ber), or Stat (e.g. Fanaticism, Pierce)...">
+        <select id="typeFilter">
+            <option value="ALL">All Item Types</option>
+            <option value="Weapon">All Weapons</option>
+            <option value="Melee Weapon">Melee Weapons</option>
+            <option value="2H Weapon">Two-Handed Weapons</option>
+            <option value="Missile Weapon">Missile / Ranged Weapons</option>
+            <option value="Sword">Swords</option>
+            <option value="Axe">Axes</option>
+            <option value="Mace">Maces</option>
+            <option value="Scepter">Scepters</option>
+            <option value="Staff">Staves</option>
+            <option value="Wand">Wands</option>
+            <option value="Dagger">Daggers</option>
+            <option value="Claw">Assassin Claws</option>
+            <option value="Orb">Sorceress Orbs</option>
+            <option value="Javelin">Javelins</option>
+            <option value="Throwing">Throwing Weapons</option>
+            <option value="Body Armor">Body Armor</option>
+            <option value="Helm">Helms (All)</option>
+            <option value="Barbarian Helm">Barbarian Helms</option>
+            <option value="Druid Pelt">Druid Pelts</option>
+            <option value="Shield">Shields (All)</option>
+            <option value="Paladin Shield">Paladin Shields</option>
+            <option value="Necromancer Shield">Necromancer Shields</option>
+        </select>
+        <select id="socketFilter">
+            <option value="ALL">Any Sockets</option>
+            <option value="2">2 Sockets</option>
+            <option value="3">3 Sockets</option>
+            <option value="4">4 Sockets</option>
+            <option value="5">5 Sockets</option>
+            <option value="6">6 Sockets</option>
+        </select>
+        <select id="statusFilter">
+            <option value="ALL">All Status</option>
+            <option value="1">Enabled Only (Complete=1)</option>
+            <option value="0">Disabled / Unfinished</option>
+        </select>
+    </div>
+    <button class="btn" onclick="downloadSelf()">Download HTML File</button>
+</div>
 
-    <section id="install" class="section">
-      <h2>⚙️ Hướng dẫn cài đặt</h2>
-      <p>
-        1. Tải bản mod từ GitHub hoặc trang chủ. <br>
-        2. Giải nén vào thư mục Diablo II gốc. <br>
-        3. Chạy game bằng lệnh: <code>Game.exe -mod D2VM -txt</code> <br>
-        4. Kiểm tra file cấu hình để bật tính năng bổ sung.
-      </p>
-    </section>
+<div class="stats-bar">
+    <span id="countDisplay">Showing 0 Runewords</span>
+    <span>Tip: Type multiple keywords to narrow down results</span>
+</div>
 
-    <section id="items" class="section">
-      <h2>💎 Vật phẩm mới</h2>
-      <p>
-        - Thêm hàng trăm vật phẩm hiếm, runeword mới, và công thức cube.<br>
-        - Cập nhật chỉ số và khả năng đặc biệt tùy theo class nhân vật.<br>
-        - Một số vật phẩm chỉ rơi từ boss đặc biệt hoặc sự kiện.
-      </p>
-    </section>
+<div class="grid" id="rwGrid"></div>
 
-    <section id="skills" class="section">
-      <h2>🔥 Kỹ năng mới</h2>
-      <p>
-        - Mỗi class có ít nhất 5 kỹ năng hoàn toàn mới.<br>
-        - Cân bằng lại các kỹ năng cổ điển để phù hợp meta hiện tại.<br>
-        - Một số kỹ năng có hiệu ứng hình ảnh đặc biệt.
-      </p>
-    </section>
+<script>
+const RUNEWORDS = [
+  {name:"Ancient's Pledge", active:true, sockets:3, bases:"Shield", runes:"Ral + Ort + Tal", stats:["+30% Increased Chance of Blocking","All Resistances +10","+1 Defense per Character Level (Based on Character Level)","25% Damage Taken Goes To Mana","+10 to Vitality"]},
+  {name:"Allurement", active:true, sockets:2, bases:"Weapon", runes:"Tir + Eld", stats:["+1 to All Skills","+10% Faster Cast Rate","+15 to Energy","+50 Maximum Stamina"]},
+  {name:"Apocalypse", active:true, sockets:4, bases:"2H Weapon, Body Armor", runes:"Zod + Jah + Lo + Zod", stats:["+5 to All Skills","+450-500% Enhanced Damage","20% Chance to cast Level 60 Meteor on Struck","+25% Deadly Strike","+100% Increased Attack Speed","+5% Chance of Crushing Blow","5% Chance to cast Level 60 Fire Ball on Striking"]},
+  {name:"Armageddon", active:true, sockets:3, bases:"Melee Weapon, Claw, Missile Weapon", runes:"Zod + Ohm + Gul", stats:["+3 to Fire Skills","+25% to Fire Skill Damage","+450-500% Enhanced Damage","+20 to Armageddon","+80% Increased Attack Speed","-12% to Enemy Fire Resistance"]},
+  {name:"Authority", active:true, sockets:2, bases:"Wand", runes:"Zod + Ist", stats:["+4 to Necromancer Skill Levels","+1-2 to Curses (Necromancer Only)","+3-6 to Corpse Explosion (Class Only)","Level 10 Fanaticism Aura When Equipped","+50% Faster Cast Rate","+50 to Mana after each Kill","+1.5 Life per Character Level (Based on Character Level)"]},
+  {name:"Biting Winds", active:true, sockets:3, bases:"Druid Pelt", runes:"Zod + Dol + Cham", stats:["+3 to Druid Skill Levels","+100 to Life","+30-40% Faster Cast Rate","All Resistances +30-40","+50 to Energy","+12-15% to Fire Skill Damage","+12-15% to Cold Skill Damage"]},
+  {name:"Black", active:true, sockets:3, bases:"2H Weapon", runes:"Thul + Io + Nef", stats:["Damage Reduced by 15%","+250-300% Enhanced Damage","+60% Increased Attack Speed","Magic Damage Reduced by 12","+200 to Attack Rating","+4% Chance of Crushing Blow"]},
+  {name:"Blight", active:true, sockets:3, bases:"Amazon Javelin, Claw, Axe", runes:"Tal + Sol + Hel", stats:["+150-200% Enhanced Damage","+7% to Poison Skill Damage","+1 to Poison Skills","+60% Increased Attack Speed","+20% Faster Block Rate","+40 to Life"]},
+  {name:"Blood", active:true, sockets:3, bases:"Weapon", runes:"Lo + Ohm + Um", stats:["+350-400% Enhanced Damage","+50% Increased Attack Speed","+12 Life on Striking","+50-100 to Life after each Kill","6% Chance to cast Level 6 Life Tap on Striking","5% Life Stolen per Hit","+200 to Life"]},
+  {name:"Bone", active:true, sockets:3, bases:"Body Armor", runes:"Sol + Um + Um", stats:["-5% to Enemy Magic Resistance","+2 to Magic Skills","+100-200 to Mana","+30% Faster Cast Rate","+1-3 to Bone Armor (Class Only)","+1-3 to Skeleton Mastery (Class Only)","Magic Resist +20%"]},
+  {name:"Bound by Duty", active:true, sockets:4, bases:"Body Armor", runes:"Shael + Jah + Ber + Shael", stats:["All Resistances +50","+200-300% Enhanced Defense","+30 to Strength","+30 to Dexterity","+150-200 to Life","+1 to All Skills","Damage Reduced by 10%"]},
+  {name:"Bramble", active:true, sockets:4, bases:"Body Armor", runes:"Ral + Ohm + Sur + Eth", stats:["+100% Faster Hit Recovery","+800 Defense","+1 to All Skills","+40-60 to Life after each Kill","+30-40% to Poison Skill Damage","All Resistances +30-40"]},
+  {name:"Brand", active:true, sockets:3, bases:"Missile Weapon, Javelin, Throwing", runes:"Jah + Lo + Mal", stats:["+100-200 Defense","+3% Chance of Crushing Blow","+425-475% Enhanced Damage","+400% Damage to Demons","Knockback","+100% Increased Attack Speed","+15 to Maximum Damage"]},
+  {name:"Breath of the Dying", active:true, sockets:6, bases:"Weapon", runes:"Vex + Hel + Ber + Eld + Zod + Eth", stats:["+100% Increased Attack Speed","+450-500% Damage to Demons & Undead","5% Life Stolen per Hit","+0.25 Maximum Damage per Character Level (Based on Character Level)","+450-500% Enhanced Damage","+4% Chance of Crushing Blow","+25 to All Attributes"]},
+  {name:"Broken Promise", active:true, sockets:2, bases:"Wand, Dagger, Javelin", runes:"Zod + Jah", stats:["+4 to Necromancer Skill Levels","+99% Increased Attack Speed","-12-15% to Enemy Poison Resistance","Damage Reduced by 10%","+450-500 to Attack Rating","+99% Faster Run/Walk","+4 to Druid Skill Levels"]},
+  {name:"Call to Arms", active:false, sockets:3, bases:"Helm", runes:"Lem + Ith + Thul", stats:["+1 to All Skills","+60-75 to Life","Fire Resist +20-25%","+150-175% Enhanced Defense","+20 to Dexterity","Lightning Resist +20-25%","+14-16% Deadly Strike"]},
+  {name:"Chaos", active:true, sockets:3, bases:"Claw", runes:"Fal + Ohm + Um", stats:["5% Life Stolen per Hit","+275-325% Enhanced Damage","Damage Reduced by 3%","Indestructible","+50% Increased Attack Speed","+2 to All Skills","+1 to Whirlwind"]},
+  {name:"Crescent Moon", active:true, sockets:3, bases:"Melee Weapon, Claw", runes:"Shael + Um + Tir", stats:["-6% to Enemy Lightning Resistance","+5-10% to Lightning Skill Damage","+275-325% Enhanced Damage","+9-12% Magic Absorb","Adds 1-400 Lightning Damage","+40% Increased Attack Speed","+5 Life on Striking"]},
+  {name:"Darkness", active:true, sockets:3, bases:"Claw", runes:"Zod + Jah + Lo", stats:["+3 to Assassin Skill Levels","+60% Increased Attack Speed","+450-500% Enhanced Damage","+0.25 Maximum Damage per Character Level (Based on Character Level)","+4% Chance of Crushing Blow","25% Chance to cast Level 6 Cloak of Shadows on Striking","Damage Reduced by 6%"]},
+  {name:"Daylight", active:false, sockets:3, bases:"Shield", runes:"Sur + Ohm + Sol", stats:["+1 to All Skills","All Resistances +25","+200% Enhanced Defense","+50% Faster Block Rate","+5% Lightning Absorb","+30% Increased Chance of Blocking","Level 1 Holy Shock Aura When Equipped"]},
+  {name:"Death", active:true, sockets:5, bases:"Melee Weapon", runes:"Hel + El + Vex + Ort + Gul", stats:["100% Chance to cast Level 60 Chain Lightning on Death","Indestructible","+300-350% Enhanced Damage","+8 Life on Striking","+0.375% Deadly Strike per Character Level (Based on Character Level)","+10-20 to Dexterity","+60% Increased Attack Speed"]},
+  {name:"Decay", active:false, sockets:2, bases:"Wand, Dagger", runes:"Tal + Tir", stats:["+30% Faster Run/Walk","Regenerate Mana 40%","Replenish Life -30","+2-3 to Poison Dagger (Class Only)","+2-3 to Bone Armor (Class Only)","+150-175% Enhanced Damage","+50% Increased Attack Speed"]},
+  {name:"Deception", active:false, sockets:3, bases:"Claw", runes:"Mal + Lum + Tir", stats:["+2 to Assassin Skill Levels","+175-225% Enhanced Damage","Damage Reduced by 10%","All Resistances +20","+200% Damage to Demons","+100 to Life","+40% Increased Attack Speed"]},
+  {name:"Delirium", active:true, sockets:3, bases:"Helm", runes:"Lem + Ist + Io", stats:["6% Chance to cast Level 6 Confuse on Striking","All Resistances +25","+25% Faster Cast Rate","+261 Defense","+25% Increased Attack Speed","+3 to All Skills","+5 Life on Striking"]},
+  {name:"Desire", active:true, sockets:4, bases:"Missile Weapon", runes:"Zod + Um + Ohm + Vex", stats:["+6 to All Skills","+50-60 to Dexterity","+450-500% Enhanced Damage","+4% Chance of Crushing Blow","+80% Increased Attack Speed","+0.25 Maximum Damage per Character Level (Based on Character Level)","All Resistances +50-60"]},
+  {name:"Destruction", active:true, sockets:5, bases:"2H Weapon", runes:"Vex + Lo + Ber + Jah + Ko", stats:["+450-500% Enhanced Damage","+100% Increased Attack Speed","All Resistances +20-30","+6% Chance of Crushing Blow","+25% Deadly Strike","5% Life Stolen per Hit","Damage Reduced by 20%"]},
+  {name:"Doomsayer", active:true, sockets:5, bases:"Weapon", runes:"Hel + Ohm + Um + Lo + Cham", stats:["+425-450% Enhanced Damage","Level 12 Holy Freeze Aura When Equipped","+50% Increased Attack Speed","Prevent Monster Heal","-10% to Enemy Cold Resistance","+2 to All Skills","+3% Chance of Crushing Blow"]},
+  {name:"Dragon", active:false, sockets:3, bases:"Shield", runes:"Sur + Vex + Sol", stats:["+1 to All Skills","All Resistances +25","+200% Enhanced Defense","+40% Increased Chance of Blocking & Faster Block Rate","+5% Fire Absorb","Level 1 Holy Fire Aura When Equipped","+8 Life on Striking"]},
+  {name:"Dragonfly", active:true, sockets:5, bases:"Sword", runes:"Super Amethyst + Super Sapphire + Super Emerald + Super Ruby + Super Diamond", stats:["+5 to All Skills","+20% Faster Cast Rate","+10-15% to Elemental, Poison, and Magic Skill Damage","-12% to Enemy Elemental, Poison, and Magic Resistance","Increase Maximum Life 5%","All Resistances +20","+33% Cast Delay Reduced"]},
+  {name:"Dream", active:true, sockets:3, bases:"Helm", runes:"Io + Ber + Pul", stats:["20% Chance to cast Level 4 Confuse on Struck","+3 to All Skills","+6% to Elemental, Poison, and Magic Skill Damage","-3% to Enemy Elemental, Poison, and Magic Resistance","All Resistances +30","+30% Faster Hit Recovery","+15% Faster Cast Rate"]},
+  {name:"Duress", active:false, sockets:3, bases:"Body Armor", runes:"Shael + Um + Thul", stats:["+3% Chance of Crushing Blow","+150-200% Enhanced Damage","66% Chance of Open Wounds","+150-200% Enhanced Defense","+40% Increased Attack Speed"]},
+  {name:"Dweomer", active:false, sockets:2, bases:"Wand", runes:"Vex + Ko", stats:["+2 to Necromancer Skill Levels","+20% Faster Cast Rate","+40% Faster Hit Recovery","+15 to Energy","+15 to Dexterity"]},
+  {name:"Edge", active:false, sockets:3, bases:"Missile Weapon, Javelin, Throwing", runes:"Tir + Tal + Amn", stats:["Level 1 Thorns Aura When Equipped","+40% Increased Attack Speed","+200% Damage to Demons","+200% Damage to Undead","+10 to All Attributes","+140-160% Enhanced Damage"]},
+  {name:"Effervescence", active:false, sockets:2, bases:"Wand", runes:"Thul + Tir", stats:["+1 to Necromancer Skill Levels","+1-2 to Teeth (Class Only)","+1-2 to Bone Spear (Class Only)","+15 to Energy","-5% to Enemy Magic Resistance","+10-15% Faster Cast Rate","25% Extra Gold from Monsters"]},
+  {name:"Enigma", active:true, sockets:3, bases:"Body Armor", runes:"Ber + Ith + Jah", stats:["+200-300% Enhanced Defense","Damage Reduced by 5%","+90% Faster Run/Walk","+2 to All Skills","+1 to Teleport (Skill #718)","All Resistances +20-30","+20-30 to Dexterity"]},
+  {name:"Enlightenment", active:true, sockets:3, bases:"Body Armor", runes:"Pul + Ral + Sol", stats:["-5% to Enemy Elemental Resistance","All Resistances +20","+2 to Sorceress Skill Levels","+5-10 to Warmth (Class Only)","+30% Faster Cast Rate","+150-200 to Mana","Magic Damage Reduced by 10"]},
+  {name:"Envy", active:true, sockets:3, bases:"Weapon", runes:"Jah + Eth + Fal", stats:["+350-400% Enhanced Damage","+3 to Poison Skills","+80% Increased Attack Speed","+15% to Poison Skill Damage","-8% to Enemy Poison Resistance","Prevent Monster Heal"]},
+  {name:"Eternity", active:true, sockets:5, bases:"Melee Weapon", runes:"Amn + Jah + Ist + Sol + Sur", stats:["+425-450% Enhanced Damage","Indestructible","Slows Target by 5%","+40% Increased Attack Speed","Replenish Life +400","+3% Chance of Crushing Blow","Cannot Be Frozen"]},
+  {name:"Exile's Path", active:true, sockets:4, bases:"Paladin Shield", runes:"Vex + Ohm + Ist + Dol", stats:["-5% to Enemy Elemental, Poison, and Magic Resistance","Indestructible","+350% Enhanced Defense","Level 12 Defiance Aura When Equipped","+3 to Offensive Auras (Paladin Only)","+20% Increased Chance of Blocking","Curse Duration Reduced by 30%"]},
+  {name:"Faith", active:true, sockets:4, bases:"Missile Weapon, Javelin, Throwing", runes:"Ohm + Jah + Lem + Eld", stats:["Level 6-12 Fanaticism Aura When Equipped","+2 to All Skills","+300-350% Enhanced Damage","300% Bonus to Attack Rating","All Resistances +50","+20-30 to Dexterity","+50% Increased Attack Speed"]},
+  {name:"Famine", active:true, sockets:4, bases:"Weapon", runes:"Fal + Ohm + Ort + Jah", stats:["+425-450% Enhanced Damage","5% Life Stolen per Hit","+100% Increased Attack Speed","Prevent Monster Heal","Adds 200-500 Magic Damage","-10% to Enemy Magic Resistance","+3% Chance of Crushing Blow"]},
+  {name:"Flickering Flame", active:true, sockets:4, bases:"Staff", runes:"Ral + Dol + Lum + Vex", stats:["+4 to Fire Skills","+50% Faster Cast Rate","All Resistances +40","+3 to Fire Nova (Class Only)","+3 to Fiery Maelstrom (Class Only)","+3 to Meteor (Class Only)","-6-8% to Enemy Fire Resistance"]},
+  {name:"Fortitude", active:true, sockets:4, bases:"Body Armor", runes:"El + Sol + Dol + Lo", stats:["+300-400% Enhanced Defense","+250-350% Enhanced Damage","All Resistances +30-40","+20-30 to Vitality","+20% Deadly Strike","+15-20% Increased Chance of Blocking"]},
+  {name:"Fortune's Favor", active:true, sockets:4, bases:"Necromancer Shield", runes:"Zod + Lo + Dol + Hel", stats:["+3 to Necromancer Skill Levels","All Resistances +40","12-25% Better Chance of Getting Magic Items","+40% Faster Cast Rate","+20-25% to Elemental, Poison, and Magic Skill Damage","-6% to Enemy Elemental, Poison, and Magic Resistance","+50 to Energy"]},
+  {name:"Fury", active:true, sockets:3, bases:"Claw", runes:"Jah + Gul + Eth", stats:["+350-400% Enhanced Damage","+50% Increased Attack Speed","+40% Deadly Strike","Level 4 Fanaticism Aura When Equipped","5% Life Stolen per Hit","+6 Life on Striking","Damage Reduced by 3%"]},
+  {name:"Gloom", active:false, sockets:3, bases:"Body Armor", runes:"Amn + Ko + Lum", stats:["+80-100% Enhanced Defense","All Resistances +25","+100 to Life","+1 to All Skills","50% Damage Taken Goes To Mana","+100 to Mana","+15-25% Faster Cast Rate"]},
+  {name:"Glory", active:false, sockets:3, bases:"Body Armor", runes:"Eld + Eth + Ral", stats:["+100% Damage to Undead","+100% Damage to Demons","+10-15 to Strength","+50% Faster Hit Recovery","+250-300 Defense","+10-15 to Dexterity","Damage Reduced by 5%"]},
+  {name:"GraveRobber", active:true, sockets:2, bases:"Wand", runes:"El + Eth", stats:["12% Better Chance of Getting Magic Items","25-35% Extra Gold from Monsters","Replenish Life +25-35","+2-3 to Skeleton Mastery (Class Only)","+1-2 to Raise Skeleton (Class Only)","+1-2 to Raise Skeletal Mage (Class Only)"]},
+  {name:"Hand of Justice", active:true, sockets:3, bases:"Weapon", runes:"Ber + Jah + Lo", stats:["+80% Increased Attack Speed","+350-400% Enhanced Damage","Level 20 Holy Fire Aura When Equipped","+10% to Fire Skill Damage","-10% to Enemy Fire Resistance","+2 to Fire Skills"]},
+  {name:"Harmony", active:true, sockets:4, bases:"Missile Weapon, Throwing, Javelin", runes:"Tir + Ith + Sol + Ko", stats:["Level 3 Vigor Aura When Equipped","+200-250% Enhanced Damage","+50% Increased Attack Speed","+0.25 Maximum Damage per Character Level (Based on Character Level)","+4-6 to Valkyrie (Class Only)","+8 to Attack Rating per Character Level (Based on Character Level)","+0.375% Deadly Strike per Character Level (Based on Character Level)"]},
+  {name:"Hatred", active:true, sockets:4, bases:"2H Weapon", runes:"Zod + Jah + Vex + Jah", stats:["+10 Life on Striking","Damage Reduced by 30%","+450-500% Enhanced Damage","5% Chance to cast Level 8 Amplify Damage on Striking","+100% Increased Attack Speed","+8% Chance of Crushing Blow","+30 to Maximum Damage"]},
+  {name:"Heart of the Oak", active:true, sockets:4, bases:"Weapon", runes:"Ko + Vex + Pul + Thul", stats:["+40% Faster Cast Rate","Level 6 Oak Sage (25 Charges)","Increase Maximum Mana 20%","+3 to All Skills","Replenish Life +160","Regenerate Mana 20%","All Resistances +20-30"]},
+  {name:"Heaven's Will", active:true, sockets:3, bases:"Mace, Scepter", runes:"Zod + Cham + Lo", stats:["+4 to All Skills","+50% Faster Cast Rate","Level 10 Meditation Aura When Equipped","Increase Maximum Mana 30%","-12-15% to Enemy Magic Resistance","+25-30% to Magic Skill Damage"]},
+  {name:"Holy Tears", active:false, sockets:4, bases:"Weapon", runes:"Pul + Lum + Jah + Mal", stats:["+400-425% Enhanced Damage","+200-300% Damage to Undead","+80% Increased Attack Speed","Adds 200-400 Magic Damage","1% Chance to cast Level 8 Decrepify on Striking","Cannot Be Frozen","5% Life Stolen per Hit"]},
+  {name:"Holy Thunder", active:true, sockets:4, bases:"Melee Weapon", runes:"Eth + Ral + Ort + Tal", stats:["+125-150% Enhanced Damage","Adds 1-200 Lightning Damage","Adds 50-100 Cold Damage","+50-100 Fire Damage","+2 to Offensive Auras (Paladin Only)","+50% Increased Attack Speed"]},
+  {name:"Honor", active:true, sockets:5, bases:"Melee Weapon", runes:"Amn + El + Ith + Tir + Sol", stats:["+225-275% Enhanced Damage","Indestructible","+1 to All Skills","+200 to Attack Rating","+30% Deadly Strike","+50% Increased Attack Speed"]},
+  {name:"Hunger", active:true, sockets:4, bases:"Necromancer Shield", runes:"Pul + Ral + Eld + Fal", stats:["+30% Increased Chance of Blocking","+1 to Necromancer Skill Levels","+15% Faster Cast Rate","+30 to Life after each Kill","+6-8% to Elemental, Poison, and Magic Skill Damage","-3-5% to Enemy Elemental, Poison, and Magic Resistance","All Resistances +20-30"]},
+  {name:"Ice", active:true, sockets:3, bases:"Weapon", runes:"Cham + Jah + Lo", stats:["+80% Increased Attack Speed","Level 20 Holy Freeze Aura When Equipped","+350-400% Enhanced Damage","+10% to Cold Skill Damage","-10% to Enemy Cold Resistance","+2 to Cold Skills"]},
+  {name:"Immortality", active:true, sockets:4, bases:"Body Armor", runes:"Super Topaz + Super Sapphire + Super Emerald + Super Ruby", stats:["+3 to All Skills","+1000 to Life","+800% Enhanced Defense","Damage Reduced by 30%","All Resistances +80","+30 to All Attributes","+10% Absorb Elemental & Magic Damage"]},
+  {name:"Infinity", active:true, sockets:3, bases:"Weapon", runes:"Ber + Ist + Ber", stats:["Level 20 Holy Shock Aura When Equipped","+80% Increased Attack Speed","+350-400% Enhanced Damage","-10% to Enemy Lightning Resistance","+2 to Lightning Skills","+10% to Lightning Skill Damage"]},
+  {name:"Innocence", active:true, sockets:3, bases:"Helm", runes:"El + Eld + El", stats:["+25 to Mana","+25% Faster Run/Walk","+5 to All Attributes","25-35% Extra Gold from Monsters","15% Better Chance of Getting Magic Items","+50 Defense","All Resistances +10"]},
+  {name:"Insight", active:true, sockets:3, bases:"Weapon", runes:"Tir + Tal + Sol", stats:["Level 10 Meditation Aura When Equipped","+33% Faster Cast Rate","+200-250% Enhanced Damage","200% Bonus to Attack Rating","+1 to Critical Strike","+5 to All Attributes"]},
+  {name:"Invictus", active:true, sockets:5, bases:"2H Weapon", runes:"Zod + Pul + Shael + Cham + Zod", stats:["+450-500% Enhanced Damage","+85% Increased Attack Speed","+10% Chance of Crushing Blow","+100 to Dexterity","5% Life Stolen per Hit","+100% Deadly Strike","Adds 20-30 Damage"]},
+  {name:"Jealousy", active:false, sockets:5, bases:"Staff", runes:"Zod + Shael + Vex + Ohm + Shael", stats:["+5 to All Skills","+450-500% Enhanced Damage","+100% Increased Attack Speed","All Resistances +50","+8% Chance of Crushing Blow","Damage Reduced by 20%","+1 to Critical Strike"]},
+  {name:"Judgment", active:false, sockets:4, bases:"2H Weapon", runes:"Zod + Sur + Lo + Ohm", stats:["+3 to All Skills","+450-500% Enhanced Damage","Adds 25-50 Damage","+8% Chance of Crushing Blow","+100% Increased Attack Speed","All Resistances +50","+20 to Zeal"]},
+  {name:"King's Grace", active:false, sockets:3, bases:"Melee Weapon, Claw", runes:"Amn + Ral + Thul", stats:["+140-160% Enhanced Damage","+200 to Attack Rating","+200% Damage to Demons","+200% Damage to Undead","+200 to Attack Rating against Demons","+200 to Attack Rating against Undead","+40% Increased Attack Speed"]},
+  {name:"Kingslayer", active:true, sockets:4, bases:"2H Weapon", runes:"Mal + Um + Gul + Fal", stats:["+100% Increased Attack Speed","+300-350% Enhanced Damage","-25% Target Defense","+10 to Vengeance","100-200% Extra Gold from Monsters","+4% Chance of Crushing Blow","All Resistances +30"]},
+  {name:"Knight's Vigil", active:false, sockets:3, bases:"Shield", runes:"Shael + Fal + Io", stats:["+40% Increased Attack Speed","+25% Increased Chance of Blocking","+150-200% Enhanced Defense","+80 to Life","Damage Reduced by 10%","+15-20% Deadly Strike","All Resistances +15"]},
+  {name:"Last Wish", active:true, sockets:5, bases:"2H Weapon", runes:"Jah + Ohm + Cham + Zod + Lo", stats:["All Resistances +30","+8% Chance of Crushing Blow","+15% Deadly Strike","Level 8-12 Might Aura When Equipped","+450-500% Enhanced Damage","+100% Increased Attack Speed","Adds 20-30 Damage"]},
+  {name:"Lawbringer", active:false, sockets:3, bases:"Melee Weapon, Claw", runes:"Amn + Lem + Ko", stats:["1% Chance to cast Level 8 Lower Resist on Striking","-5% to Enemy Elemental, Poison, and Magic Resistance","Adds 200-400 Lightning Damage","Adds 200-400 Fire Damage","Adds 200-400 Cold Damage","Slain Monsters Rest in Peace","+60% Increased Attack Speed"]},
+  {name:"Leaf", active:true, sockets:2, bases:"Staff", runes:"Tir + Ral", stats:["+4 to Fire Skills","+2 Defense per Character Level (Based on Character Level)","Fire Resist +50%","+30% Faster Cast Rate","-5% to Enemy Fire Resistance"]},
+  {name:"Legend", active:true, sockets:3, bases:"Weapon", runes:"Super Skull + Super Skull + Super Skull", stats:["+4 to All Skills","+666% Enhanced Damage","+500 to Attack Rating","+100% Increased Attack Speed","+50% Faster Run/Walk","-10% to Enemy Elemental, Poison, and Magic Resistance"]},
+  {name:"Lionheart", active:true, sockets:3, bases:"Body Armor", runes:"Hel + Lum + Fal", stats:["+15 to Dexterity","+180-220% Enhanced Defense","All Resistances +30","25% Damage Taken Goes To Mana","+150% Enhanced Damage","+140-160 to Life","Damage Reduced by 10%"]},
+  {name:"Lore", active:true, sockets:2, bases:"Helm", runes:"Ort + Sol", stats:["+5 to Dexterity","+1 to All Skills","+10 to Energy","+10 to Mana after each Kill","All Resistances +10","Magic Damage Reduced by 10"]},
+  {name:"Loyalty", active:true, sockets:3, bases:"Melee Weapon, Claw", runes:"Dol + Sol + Ko", stats:["+2-6 to Zeal (Class Only)","+2-6 to Whirlwind (Class Only)","+2-6 to Dragon Claw (Class Only)","+2-6 to Fury (Class Only)","5% Life Stolen per Hit","+225-250% Enhanced Damage","+70% Increased Attack Speed"]},
+  {name:"Lust", active:false, sockets:4, bases:"Body Armor", runes:"Lem + Ist + Lem + Ist", stats:["All Resistances +30","+66% Faster Run/Walk","+1 to All Skills","+33% Increased Attack Speed","50-100% Extra Gold from Monsters","+200 to Life"]},
+  {name:"Madness", active:true, sockets:3, bases:"Claw", runes:"Dol + Lum + Tir", stats:["+1-2 to Shadow Disciplines (Assassin Only)","+33% Faster Cast Rate","-5% to Enemy Magic Resistance","+33% Increased Attack Speed","+10-15% to Magic Skill Damage"]},
+  {name:"Malice", active:true, sockets:3, bases:"2H Weapon", runes:"Ith + El + Eth", stats:["100% Chance of Open Wounds","-100 to Monster Defense Per Hit","Prevent Monster Heal","+175-200% Enhanced Damage","+80% Increased Attack Speed","+4% Chance of Crushing Blow"]},
+  {name:"Melody", active:true, sockets:3, bases:"Missile Weapon, Javelin, Throwing", runes:"Shael + Ko + Nef", stats:["+50% Increased Attack Speed","+3 to Bow and Crossbow Skills (Amazon Only)","+125-150% Enhanced Damage","+4 to Magic Arrow (Class Only)","+4 to Slow Missiles (Class Only)","+10-15% to Elemental, Poison, and Magic Skill Damage","-5% to Enemy Elemental, Poison, and Magic Resistance"]},
+  {name:"Memory", active:true, sockets:4, bases:"Staff", runes:"Lum + Io + Sol + Eth", stats:["Increase Maximum Mana 20%","-5% to Enemy Elemental Resistance","+100% Enhanced Defense","+50% Faster Cast Rate","+3 to All Skills","+80-120 to Mana","All Resistances +20"]},
+  {name:"Mist", active:true, sockets:3, bases:"Body Armor", runes:"Thul + Thul + Shael", stats:["+100-150% Enhanced Defense","+10% Cold Absorb","+7% to Cold Skill Damage","-5% to Enemy Cold Resistance","Magic Damage Reduced by 20","Adds 75-150 Cold Damage","All Resistances +10"]},
+  {name:"Morning Dew", active:false, sockets:2, bases:"Sorceress Orb", runes:"Eth + Eld", stats:["+1 to Sorceress Skill Levels","+60% Increased Attack Speed","Adds 30-60 Fire Damage","+1 to Zeal","+10% Increased Chance of Blocking","+20% Faster Block Rate","+10 to Dexterity"]},
+  {name:"Mystery", active:false, sockets:3, bases:"Weapon, Claw", runes:"Amn + Sol + Ith", stats:["+150-450% Enhanced Damage","+25-50% Increased Attack Speed","All Resistances +6-12","+6-12 to Energy","+6-12 to Vitality","+6-12 to Strength","+6-12 to Dexterity"]},
+  {name:"Myth", active:true, sockets:2, bases:"Throwing Knife, Throwing Axe", runes:"Cham + Jah", stats:["+3 to Barbarian Skill Levels","Adds 10-20 Damage","+450-500% Enhanced Damage","+3% Chance of Crushing Blow","+80% Increased Attack Speed","+25% Deadly Strike","99% Piercing Attack"]},
+  {name:"Nadir", active:true, sockets:2, bases:"Helm", runes:"Nef + Tir", stats:["+10% Increased Chance of Blocking","+125-150% Enhanced Defense","+10 to Strength","+10 to Dexterity","-50% Extra Gold from Monsters","+30% Faster Run/Walk","+10% Increased Attack Speed"]},
+  {name:"Nature's Kingdom", active:true, sockets:4, bases:"Druid Pelt", runes:"Um + Ber + Lum + Mal", stats:["+2 to All Skills","All Resistances +8-18","+2-4 to Summon Spirit Wolf (Class Only)","+2-3 to Summon Dire Wolf (Class Only)","+1-2 to Summon Grizzly (Class Only)","Level 10-15 Vigor Aura When Equipped","+25 to Dexterity"]},
+  {name:"Nepenthe", active:true, sockets:4, bases:"Paladin Shield", runes:"Eld + Io + Eld + Tal", stats:["Level 4 Prayer Aura When Equipped","+1-2 to Defensive Auras (Paladin Only)","+1-2 to Holy Bolt (Class Only)","All Resistances +10-20","Curse Duration Reduced by 30%"]},
+  {name:"Newbie Fighter", active:true, sockets:2, bases:"Weapon", runes:"Chipped Amethyst + Chipped Skull", stats:["+100% Enhanced Damage","Adds 1-50 Lightning Damage","Adds 25 Cold Damage","Adds 25 Fire Damage","+15% Increased Attack Speed"]},
+  {name:"Newbie Wizard", active:true, sockets:2, bases:"Weapon", runes:"Jewel + Jewel", stats:["+20% Faster Cast Rate","+5% to Elemental, Poison, and Magic Skill Damage","+1 to All Skills"]},
+  {name:"Nightfall", active:true, sockets:4, bases:"Shield", runes:"Zod + Shael + Shael + Shael", stats:["+40% Increased Chance of Blocking","+450-500% Enhanced Defense","Damage Reduced by 20%","Magic Resist +15%","All Resistances +50","+30 to Dexterity"]},
+  {name:"Oath", active:true, sockets:4, bases:"Weapon", runes:"Shael + Pul + Mal + Lum", stats:["+200% Damage to Demons","+200% Enhanced Damage","Magic Damage Reduced by 40-60","Level 15 Heart of Wolverine (30 Charges)","+40% Increased Attack Speed","+25% Deadly Strike","5% Life Stolen per Hit"]},
+  {name:"Obedience", active:false, sockets:3, bases:"Melee Weapon", runes:"Zod + Fal + Jah", stats:["+450-500% Enhanced Damage","+1 to All Skills","+100-200 Defense","+0.25 Maximum Damage per Character Level (Based on Character Level)","+80% Increased Attack Speed","+300% Damage to Undead"]},
+  {name:"Oblivion", active:true, sockets:2, bases:"Wand", runes:"Zod + Ber", stats:["+4 to Necromancer Skill Levels","-12-15% to Enemy Fire Resistance","-12-15% to Enemy Magic Resistance","+50% Faster Cast Rate","+20-30 to Dexterity","+20-25% to Fire Skill Damage","+20-25% to Magic Skill Damage"]},
+  {name:"Obsession", active:true, sockets:3, bases:"Weapon", runes:"Zod + Eld + Cham", stats:["+450-500% Enhanced Damage","+4 to All Skills","+100-200 Defense","+100% Increased Attack Speed","Level 10-15 Concentration Aura When Equipped","+6 to Attack Rating per Character Level (Based on Character Level)"]},
+  {name:"Passion", active:true, sockets:3, bases:"Weapon", runes:"Zod + Um + Sur", stats:["+450-500% Enhanced Damage","+3 to Poison Skills","+25% to Poison Skill Damage","+100% Increased Attack Speed","Prevent Monster Heal","-10% to Enemy Poison Resistance"]},
+  {name:"Patience", active:true, sockets:4, bases:"Druid Pelt", runes:"Eld + Mal + Eth + Ko", stats:["+150-200% Enhanced Defense","+2 to Druid Skill Levels","Damage Reduced by 10%","+300 to Life","All Resistances +20","+30% Faster Hit Recovery"]},
+  {name:"Peace", active:true, sockets:3, bases:"Body Armor", runes:"Shael + Thul + Amn", stats:["+33% Increased Attack Speed","All Resistances +25","+2 to Amazon Skill Levels","+3 to Critical Strike (Class Only)","Damage Reduced by 5%","+3 to Minimum Damage","+6 to Maximum Damage"]},
+  {name:"Penitence", active:true, sockets:4, bases:"Paladin Shield", runes:"Eld + Lum + Sur + Io", stats:["+2 to All Skills","All Resistances +20-30","Damage Reduced by 12%","Poison Length Reduced by 100%","+1-4 to Holy Bolt (Class Only)","Curse Duration Reduced by 30%","Level 1-4 Purify Aura When Equipped"]},
+  {name:"Peril", active:true, sockets:3, bases:"Body Armor", runes:"Io + Amn + Nef", stats:["All Resistances +25","+200 to Life","+2 to Barbarian Skill Levels","Damage Reduced by 10%","+250-300% Enhanced Defense","+20 to Strength","+30% Faster Cast Rate"]},
+  {name:"Pestilence", active:false, sockets:2, bases:"Melee Weapon, Wand, Claw", runes:"Um + Tal", stats:["+10 to Poison Dagger","+1 to All Skills","+40% Increased Attack Speed","+250-300% Enhanced Damage","Prevent Monster Heal","-5% to Enemy Poison Resistance","+200 to Attack Rating"]},
+  {name:"Phoenix", active:false, sockets:3, bases:"Shield", runes:"Vex + Ohm + Lo", stats:["55% Chance to cast Level 6 Fire Ball on Striking","Level 3-5 Redemption Aura When Equipped","+20 to Dexterity","+30% Increased Chance of Blocking","+250-350% Enhanced Damage","+60% Faster Block Rate"]},
+  {name:"Pillar of Faith", active:false, sockets:3, bases:"Scepter", runes:"Zod + Cham + Vex", stats:["+4 to All Skills","+20 to Berserk","+450-500% Enhanced Damage","+400 to Attack Rating","+100% Increased Attack Speed","Damage Reduced by 15%","-12-15% to Enemy Magic Resistance"]},
+  {name:"Plague", active:false, sockets:3, bases:"Body Armor", runes:"Tal + Tal + Shael", stats:["+100-150% Enhanced Defense","Poison Length Reduced by 50-75%","+7% to Poison Skill Damage","All Resistances +10","-5% to Enemy Poison Resistance","Magic Damage Reduced by 20"]},
+  {name:"Praise", active:false, sockets:3, bases:"Sword", runes:"Zod + Ko + Ber", stats:["+5 to Druid Skill Levels","+60% Faster Cast Rate","Increase Maximum Life 10%","+2 to Fire Skills"]},
+  {name:"Pride", active:false, sockets:4, bases:"2H Weapon", runes:"Cham + Ohm + Io + Lo", stats:["+2 to All Skills","Level 12-16 Concentration Aura When Equipped","200% Bonus to Attack Rating","+100% Increased Attack Speed","+7% Chance of Crushing Blow","-10% to Enemy Magic Resistance","+425-450% Enhanced Damage"]},
+  {name:"Principle", active:true, sockets:3, bases:"Body Armor", runes:"Ral + Ko + Eld", stats:["+2 to Paladin Skill Levels","+200 to Life","All Resistances +25","+250-300% Enhanced Defense","+30% Increased Attack Speed","+30% Faster Cast Rate","Damage Reduced by 10%"]},
+  {name:"Prowess in Battle", active:true, sockets:4, bases:"Paladin Shield", runes:"Zod + Jah + Ber + Jah", stats:["+4 to Paladin Skill Levels","Curse Duration Reduced by 30%","+30% Faster Cast Rate","+15-20% to Elemental, Poison, and Magic Skill Damage","-6% to Enemy Elemental, Poison, and Magic Resistance","Damage Reduced by 30%","+30 to Dexterity"]},
+  {name:"Prudence", active:false, sockets:2, bases:"Body Armor", runes:"Mal + Tir", stats:["+30% Faster Hit Recovery","+250-300% Enhanced Defense","All Resistances +50-60","Magic Resist +30%"]},
+  {name:"Punishment", active:true, sockets:4, bases:"Barbarian Helm, Druid Pelt", runes:"Zod + Ist + Shael + Hel", stats:["+4 to All Skills","+400-500% Enhanced Defense","Damage Reduced by 15%","+30 to Strength","Increase Maximum Life 15%","All Resistances +30","Poison Length Reduced by 50%"]},
+  {name:"Purity", active:true, sockets:4, bases:"Paladin Shield", runes:"Ber + Ist + Ber + Mal", stats:["Level 10 Purify Aura When Equipped","All Resistances +20","+4-6 to Conviction (Class Only)","Curse Duration Reduced by 30%","+3-5 to Holy Bolt (Class Only)","+3-5 to Cleansing (Class Only)","+3 to Defensive Auras (Paladin Only)"]},
+  {name:"Radiance", active:true, sockets:3, bases:"Helm", runes:"Nef + Sol + Ith", stats:["+1 to All Skills","+20 to Energy","All Resistances +15","Magic Damage Reduced by 5","Increase Maximum Mana 33%","+10% Faster Cast Rate"]},
+  {name:"Rage's Purity", active:false, sockets:4, bases:"Melee Weapon", runes:"Ber + Pul + Cham + Eld", stats:["+2 to All Skills","+350-400% Enhanced Damage","+100-200 Defense","+80% Increased Attack Speed","+2% Chance of Crushing Blow","+25% Deadly Strike","Damage Reduced by 15%"]},
+  {name:"Rain", active:true, sockets:3, bases:"Body Armor", runes:"Ort + Fal + Ith", stats:["+2 to Druid Skill Levels","-3% to Enemy Elemental, Poison, and Magic Resistance","+200-300% Enhanced Defense","+30% Faster Cast Rate","+200 to Life","Damage Reduced by 10%","All Resistances +25"]},
+  {name:"Red", active:true, sockets:3, bases:"Body Armor", runes:"Ral + Ral + Shael", stats:["+100-150% Enhanced Defense","+10% Fire Absorb","+7% to Fire Skill Damage","-5% to Enemy Fire Resistance","Magic Damage Reduced by 20","Adds 75-150 Fire Damage","All Resistances +10"]},
+  {name:"Rhyme", active:true, sockets:2, bases:"Shield", runes:"Shael + Eth", stats:["+30% Faster Block Rate","+20% Increased Chance of Blocking","All Resistances +25","Cannot Be Frozen","25% Extra Gold from Monsters","12% Better Chance of Getting Magic Items","+1 to All Skills"]},
+  {name:"Rift", active:false, sockets:4, bases:"Melee Weapon", runes:"Hel + Ko + Lem + Gul", stats:["+150-200% Enhanced Damage","+80% Increased Attack Speed","+20 to All Attributes","Adds 300-500 Fire Damage","Adds 1-1000 Lightning Damage","Adds 300-500 Cold Damage","Adds 300-500 Poison Damage over 2 Seconds"]},
+  {name:"Sanctuary", active:true, sockets:3, bases:"Shield", runes:"Ko + Ko + Mal", stats:["+20% Increased Chance of Blocking","+30% Faster Block Rate","+160-240% Enhanced Defense","All Resistances +25-35","+25% Faster Hit Recovery","+300% Damage to Undead"]},
+  {name:"Scorpion", active:true, sockets:3, bases:"Body Armor, Druid Pelt", runes:"Ith + Tal + Dol", stats:["+120-160% Enhanced Defense","+7% to Poison Skill Damage","+1 to Power Strike / Disease Spray (Class Only)","+1 to Poison Dagger (Class Only)","+1 to Rabies (Class Only)","+40 to Life","All Resistances +15"]},
+  {name:"Serendipity", active:true, sockets:4, bases:"Body Armor", runes:"Amn + Zod + Ber + Amn", stats:["+1 to All Skills","-12-15% to Enemy Elemental, Poison, and Magic Resistance","+12-16% to Elemental, Poison, and Magic Skill Damage","All Resistances +25","Regenerate Mana 100%","Level 12 Conviction Aura When Equipped","Increase Maximum Mana 20-30%"]},
+  {name:"Shades of Mist", active:false, sockets:3, bases:"Helm", runes:"Io + Ber + Fal", stats:["16% Chance to cast Level 8 Confuse on Struck","Level 10 Holy Fire Aura When Equipped","+45% Faster Hit Recovery","+340-440 Defense","+2 to All Skills","All Resistances +20-30"]},
+  {name:"Shadow", active:true, sockets:2, bases:"Weapon", runes:"Ith + Shael", stats:["+1 to All Skills","+6 Life on Striking","+40% Increased Attack Speed","+100 to Attack Rating","1% Chance to cast Level 8 Lower Resist on Striking"]},
+  {name:"Shadow of Doubt", active:true, sockets:3, bases:"Claw", runes:"Ber + Lum + Tir", stats:["+3 to Assassin Skill Levels","+2 to Psychic Hammer (Class Only)","+2 to Mind Blast (Class Only)","+45% Faster Cast Rate","-10% to Enemy Magic Resistance","Indestructible","+15-20% to Magic Skill Damage"]},
+  {name:"Shadows and Dust", active:true, sockets:4, bases:"Body Armor", runes:"Eth + Io + Shael + Fal", stats:["+250-300% Enhanced Defense","+200 to Life","30% Chance to cast Level 10 Tornado on Striking","Damage Reduced by 10%","All Resistances +20","+80% Faster Hit Recovery","30% Chance to cast Level 20 Tornado on Struck"]},
+  {name:"Silence", active:true, sockets:5, bases:"Weapon", runes:"Dol + Eld + Ist + Tir + Vex", stats:["+325-375% Enhanced Damage","1% Chance to cast Level 8 Lower Resist on Striking","+60% Increased Attack Speed","+200 to Attack Rating","All Resistances +30","+3 to All Skills","+20% Faster Hit Recovery"]},
+  {name:"Siren's Song", active:true, sockets:4, bases:"Shield", runes:"Lo + Vex + Amn + Ohm", stats:["+1 to All Skills","All Resistances +40","Level 12 Conviction Aura When Equipped","Magic Resist +10-20%","+20% Increased Chance of Blocking","+40% Faster Block Rate","+10-20% Faster Cast Rate"]},
+  {name:"Smoke", active:true, sockets:2, bases:"Body Armor", runes:"Nef + Lum", stats:["+250 Defense vs. Missile","+40-50% Enhanced Defense","All Resistances +50","+20% Faster Hit Recovery","Damage Reduced by 5%","+100-140 to Mana"]},
+  {name:"Sorrow", active:true, sockets:5, bases:"Melee Weapon", runes:"Zod + Shael + Shael + Ber + Shael", stats:["+2 to All Skills","All Resistances +30","+450-500% Enhanced Damage","+0.25 Maximum Damage per Character Level (Based on Character Level)","+100% Increased Attack Speed","4% Life Stolen per Hit","+4% Chance of Crushing Blow"]},
+  {name:"Spirit", active:true, sockets:4, bases:"Sword, Shield", runes:"Tal + Thul + Ort + Amn", stats:["+2 to All Skills","+20% Faster Cast Rate","+35% Faster Hit Recovery","+6% to Elemental, Poison, and Magic Skill Damage","+15 to Vitality","All Resistances +15"]},
+  {name:"Splendor", active:true, sockets:3, bases:"Shield", runes:"Eth + Lum + Shael", stats:["+1 to All Skills","+40-45% Faster Cast Rate","+30% Faster Block Rate","+50-60 to Mana","+20-30% Faster Hit Recovery","+20% Increased Chance of Blocking","All Resistances +15-20"]},
+  {name:"Starlight", active:true, sockets:4, bases:"Staff", runes:"Ort + Dol + Lum + Ohm", stats:["+4 to Lightning Spells (Sorceress Only)","+50% Faster Cast Rate","All Resistances +40","+3 to Chain Lightning (Class Only)","+3 to Nova (Class Only)","+3 to Thunder Storm (Class Only)","-6-8% to Enemy Lightning Resistance"]},
+  {name:"Stealth", active:true, sockets:2, bases:"Body Armor", runes:"Tal + Eth", stats:["+25% Increased Attack Speed","+20 to Dexterity","Cold Resist +20%","+25% Faster Run/Walk","+25% Faster Cast Rate","+25% Faster Hit Recovery","Damage Reduced by 5%"]},
+  {name:"Steel", active:true, sockets:2, bases:"Weapon", runes:"Tir + El", stats:["+40% Increased Attack Speed","+2 to Minimum Damage","+4 to Maximum Damage","50% Chance of Open Wounds","+140-160% Enhanced Damage"]},
+  {name:"Still Water", active:true, sockets:4, bases:"Staff", runes:"Thul + Dol + Lum + Lo", stats:["+4-5 to Lightning Spells (Sorceress Only)","+50% Faster Cast Rate","All Resistances +40","+3 to Frozen Orb (Class Only)","+3 to Frost Nova (Class Only)","+3 to Blizzard (Class Only)","-6-8% to Enemy Cold Resistance"]},
+  {name:"Sting", active:false, sockets:3, bases:"Javelin", runes:"Zod + Jah + Tal", stats:["+5 to Amazon Skill Levels","+50% Increased Attack Speed","-12-15% to Enemy Poison Resistance","Damage Reduced by 10%","+450-500 to Attack Rating","+50% Faster Run/Walk"]},
+  {name:"Stone", active:true, sockets:4, bases:"Body Armor", runes:"Shael + Um + Pul + Lum", stats:["+350-400% Enhanced Defense","Level 40 Clay Golem (40 Charges)","Damage Reduced by 15%","All Resistances +20","+20 to Vitality","+50% Faster Hit Recovery","+10 to Golem Mastery"]},
+  {name:"Storm", active:true, sockets:2, bases:"Staff", runes:"Tir + Thul", stats:["+2 to Cold Skills","+2 Defense per Character Level (Based on Character Level)","Cold Resist +50%","+30% Faster Cast Rate","-5% to Enemy Cold Resistance"]},
+  {name:"Strength", active:true, sockets:2, bases:"Weapon", runes:"Amn + Tir", stats:["+15 to Strength","+175-200% Enhanced Damage","+2% Chance of Crushing Blow","+30% Increased Attack Speed","Damage Reduced by 3%","Magic Resist +10%"]},
+  {name:"Tartaro's Gift", active:false, sockets:3, bases:"Helm", runes:"Io + Ber + Ko", stats:["16% Chance to cast Level 8 Confuse on Struck","Level 10 Holy Freeze Aura When Equipped","+45% Faster Hit Recovery","+340-440 Defense","+2 to All Skills","All Resistances +20-30"]},
+  {name:"Tempest", active:true, sockets:3, bases:"Body Armor", runes:"Ort + Ort + Shael", stats:["+80-100% Enhanced Defense","+10% Lightning Absorb","+7% to Lightning Skill Damage","-5% to Enemy Lightning Resistance","Magic Damage Reduced by 20","Adds 1-200 Lightning Damage","All Resistances +10"]},
+  {name:"Temptation", active:true, sockets:3, bases:"Javelin, Throwing", runes:"Zod + Cham + Jah", stats:["+0.25 Maximum Damage per Character Level (Based on Character Level)","Level 10 Fanaticism Aura When Equipped","+450-500% Enhanced Damage","+100% Increased Attack Speed","+400-500 to Attack Rating","+3% Chance of Crushing Blow","5% Life Stolen per Hit"]},
+  {name:"Terror", active:false, sockets:2, bases:"2H Weapon", runes:"Hel + Dol", stats:["+1 to All Skills","+80% Increased Attack Speed","+275-325% Enhanced Damage","+5 Life on Striking","5% Life Stolen per Hit","+3% Chance of Crushing Blow","Damage Reduced by 20%"]},
+  {name:"The Beast", active:true, sockets:5, bases:"Melee Weapon", runes:"Ber + Tir + Um + Mal + Lum", stats:["+70% Increased Attack Speed","Level 6 Fanaticism Aura When Equipped","+400-425% Enhanced Damage","5% Life Stolen per Hit","Transforms into Werewolf","+300-400 to Life","+20 to Strength"]},
+  {name:"The Sword of a Thousand Truths", active:true, sockets:6, bases:"Sword", runes:"Zod + Jah + Zod + Ber + Zod + Cham", stats:["+4 to All Skills","+450-500% Enhanced Damage","+0.5 Maximum Damage per Character Level (Based on Character Level)","+100% Increased Attack Speed","+50% Faster Cast Rate","+15-20% to Magic Skill Damage","-15-20% to Enemy Magic Resistance"]},
+  {name:"The Tugmaster", active:true, sockets:3, bases:"Body Armor", runes:"Pul + Pul + Pul", stats:["+3 to Poison and Bone Spells (Necromancer Only)","+3 to Summoning Spells (Necromancer Only)","+3 to Warcries (Barbarian Only)","+250-300% Enhanced Defense","All Resistances +20","-4% to Enemy Elemental, Poison, and Magic Resistance","+20% Faster Cast Rate"]},
+  {name:"Thirst for Knowledge", active:true, sockets:2, bases:"Weapon", runes:"Zod + Cham", stats:["+4 to All Skills","Level 12 Conviction Aura When Equipped","-10% to Enemy Elemental, Poison, and Magic Resistance","+50% Faster Cast Rate","Regenerate Mana 100%","All Resistances +30","+200 to Mana"]},
+  {name:"Thought", active:true, sockets:2, bases:"Sorceress Orb", runes:"Dol + Tir", stats:["+2 to Sorceress Skill Levels","Level 5-10 Might Aura When Equipped","+15-20 to Energy","+15-20 to Vitality","-5% to Enemy Elemental Resistance"]},
+  {name:"Thunder", active:true, sockets:2, bases:"Staff", runes:"Tir + Ort", stats:["+2 to Lightning Skills","+2 Defense per Character Level (Based on Character Level)","Lightning Resist +50%","+30% Faster Cast Rate","-5% to Enemy Lightning Resistance"]},
+  {name:"Time", active:true, sockets:3, bases:"Staff", runes:"Zod + Ber + Lum", stats:["+4 to All Skills","+3 to Natural Resistance","5% Chance to cast Level 100 Lower Resist on Struck","+100% Faster Cast Rate","-16-20% to Enemy Elemental Resistance","+500-600 Defense","Increase Maximum Mana 50%"]},
+  {name:"Tradition", active:true, sockets:2, bases:"Weapon", runes:"Shael + Ral", stats:["+1 to All Skills","-3% to Enemy Elemental, Poison, and Magic Resistance","+10% Increased Chance of Blocking","+30% Faster Block Rate","+30% Faster Cast Rate","+60% Faster Hit Recovery","+100 to Mana"]},
+  {name:"Treachery", active:true, sockets:3, bases:"Body Armor", runes:"Shael + Thul + Lem", stats:["+2 to Assassin Skill Levels","+250-300% Enhanced Defense","All Resistances +25","+30% Increased Attack Speed","-3% to Enemy Elemental, Poison, and Magic Resistance","Damage Reduced by 10%","+200 to Life"]},
+  {name:"Trust", active:true, sockets:4, bases:"Barbarian Helm", runes:"Zod + Shael + Ber + Shael", stats:["+350-400% Enhanced Defense","+4 to Barbarian Skill Levels","+50 to Strength","All Resistances +50","Level 10-20 Might Aura When Equipped","-5% to Enemy Magic Resistance","+2 to Combat Masteries (Barbarian Only)"]},
+  {name:"Truth", active:true, sockets:4, bases:"Barbarian Helm", runes:"Gul + Eld + Ko + Sol", stats:["+250-300% Enhanced Defense","+3 to Barbarian Skill Levels","Damage Reduced by 10%","+10 to All Attributes","All Resistances +20","+300 to Life"]},
+  {name:"Unbending Will", active:true, sockets:4, bases:"Weapon", runes:"Zod + Io + Jah + Lum", stats:["+2 to All Skills","+3 to Warcries (Barbarian Only)","All Resistances +10-15","Level 5 Blessed Aim Aura When Equipped","+35% Faster Cast Rate"]},
+  {name:"Valor", active:true, sockets:3, bases:"Melee Weapon, Claw, Missile Weapon", runes:"Zod + Ber + Lo", stats:["+3 to Cold Skills","+20 to Hurricane","+450-500% Enhanced Damage","+25% to Cold Skill Damage","+80% Increased Attack Speed","-10% to Enemy Cold Resistance","+15% Deadly Strike"]},
+  {name:"Vengeance", active:false, sockets:6, bases:"2H Weapon", runes:"Zod + Ber + Lo + Ohm + Shael + Shael", stats:["+5 to All Skills","+450-500% Enhanced Damage","+100% Increased Attack Speed","+8% Chance of Crushing Blow","-15% to Enemy Elemental, Poison, and Magic Resistance","+20 to Vengeance","5% Life Stolen per Hit"]},
+  {name:"Venom", active:true, sockets:3, bases:"Weapon", runes:"Tal + Dol + Mal", stats:["+2 to Poison Skills","+60% Increased Attack Speed","-6% to Enemy Poison Resistance","+100-200 to Attack Rating","+15% Faster Cast Rate","-15% Target Defense","+30% Faster Hit Recovery"]},
+  {name:"Victory", active:true, sockets:3, bases:"Helm", runes:"Jah + Zod + Jah", stats:["+3 to All Skills","+450-500% Enhanced Defense","Magic Resist +33%","+300-400 to Life","All Resistances +33","+100 to Life after each Kill","5% Life Stolen per Hit"]},
+  {name:"Vizjerei's Denouement", active:true, sockets:3, bases:"Body Armor", runes:"Shael + Amn + El", stats:["+2 to Necromancer Skill Levels","+100 to Life","All Resistances +20","+30% Faster Cast Rate","+20 to Energy","+20 to Life after each Kill","+7-10% to Fire Skill Damage"]},
+  {name:"Voice", active:false, sockets:3, bases:"Weapon", runes:"Hel + Sur + Lo", stats:["+3 to All Skills","+35% Faster Block Rate","+35% Faster Cast Rate","+35% Increased Attack Speed","+35 to Energy","+35 to Life after each Kill","+35% Faster Hit Recovery"]},
+  {name:"Void", active:true, sockets:3, bases:"Dagger, Axe", runes:"Zod + Cham + Ber", stats:["+3 to All Skills","-12-15% to Enemy Elemental, Poison, and Magic Resistance","+100% Increased Attack Speed","+50% Faster Cast Rate","Damage Reduced by 10-15%","Level 5 Redemption Aura When Equipped"]},
+  {name:"War", active:true, sockets:4, bases:"Body Armor", runes:"Zod + Cham + Jah + Ber", stats:["+1 to All Skills","+700 to Life","+100% Faster Hit Recovery","+450-500% Enhanced Defense","Damage Reduced by 20%","All Resistances +60","+20 to All Attributes"]},
+  {name:"Wealth", active:true, sockets:3, bases:"Body Armor", runes:"Lem + Ko + Tir", stats:["100-200% Extra Gold from Monsters","25-50% Better Chance of Getting Magic Items","+100 to Mana","All Resistances +25","+1 to All Skills","+20-30% Faster Run/Walk","+20-30% Faster Cast Rate"]},
+  {name:"Whisper", active:false, sockets:3, bases:"Melee Weapon", runes:"Zod + Lo + Sur", stats:["+350-400% Enhanced Damage","+60% Increased Attack Speed","+8 Life on Striking","+4 to Attack Rating per Character Level (Based on Character Level)","+3% Chance of Crushing Blow","+0.25 Vitality per Character Level (Based on Character Level)","+0.75% Enhanced Maximum Damage per Character Level (Based on Character Level)"]},
+  {name:"White", active:true, sockets:2, bases:"Wand, Dagger", runes:"Dol + Io", stats:["+2 to Poison and Bone Spells (Necromancer Only)","Magic Damage Reduced by 6","+25% Faster Cast Rate","Regenerate Mana 25%","+5 to Bone Armor (Class Only)","+2 to Bone Spear (Class Only)","+3-6 to Amplify Damage (Class Only)"]},
+  {name:"Widowmaker", active:true, sockets:3, bases:"Weapon", runes:"Ko + Eth + Vex", stats:["+325-375% Enhanced Damage","+60% Increased Attack Speed","+33% Deadly Strike","+3% Chance of Crushing Blow","4% Life Stolen per Hit","+200 to Attack Rating","+10 to Maximum Damage"]},
+  {name:"Wind", active:true, sockets:4, bases:"Missile Weapon", runes:"Nef + Ith + Ko + Fal", stats:["+250-300% Enhanced Damage","+40% Faster Run/Walk","+60% Increased Attack Speed","+15-20% to Magic Skill Damage","-5% to Enemy Magic Resistance","+0.5% Enhanced Maximum Damage per Character Level (Based on Character Level)","+4 to Maximum Damage"]},
+  {name:"Wings of Hope", active:true, sockets:4, bases:"Paladin Shield", runes:"Ber + Cham + Mal + Ber", stats:["+300-400% Enhanced Defense","+3 to Paladin Skill Levels","+30% Increased Chance of Blocking","Damage Reduced by 30%","All Resistances +30","+30 to Strength","Curse Duration Reduced by 30%"]},
+  {name:"Winter", active:true, sockets:4, bases:"Melee Weapon", runes:"Lem + Ko + El + Eld", stats:["+250-300% Enhanced Damage","+2 to All Skills","Adds 250-500 Cold Damage","-5% to Enemy Cold Resistance","Cannot Be Frozen","+60% Increased Attack Speed"]},
+  {name:"Wisdom", active:true, sockets:2, bases:"Weapon", runes:"Ist + Ko", stats:["+2 to All Skills","+40% Faster Cast Rate","-6% to Enemy Elemental, Poison, and Magic Resistance","+100 to Life","+100 to Mana","+50% Faster Hit Recovery"]},
+  {name:"Woe", active:false, sockets:3, bases:"Shield", runes:"Sur + Lo + Sol", stats:["+1 to All Skills","All Resistances +25","+200% Enhanced Defense","+50% Faster Block Rate","+5% Cold Absorb","+30% Increased Chance of Blocking","Level 1 Holy Fire Aura When Equipped"]},
+  {name:"Wonder", active:true, sockets:5, bases:"Scepter, Axe", runes:"Thul + Shael + Ko + Lo + Shael", stats:["+200% Enhanced Damage","+60% Increased Attack Speed","+6% to Elemental, Poison, and Magic Skill Damage","+3 to Summoning Skills (Druid Only)","-8% to Enemy Elemental, Poison, and Magic Resistance","+3 to Offensive Auras (Paladin Only)"]},
+  {name:"Wrath", active:false, sockets:4, bases:"Weapon", runes:"Pul + Lum + Jah + Fal", stats:["1% Chance to cast Level 20 Decrepify on Struck","+1 to All Skills","+350-400% Enhanced Damage","Adds 250-500 Magic Damage","Cannot Be Frozen","+80% Increased Attack Speed","+2% Chance of Crushing Blow"]},
+  {name:"Youth", active:true, sockets:3, bases:"Melee Weapon, Claw, Amazon Javelin", runes:"Zod + Ohm + Jah", stats:["+3 to Lightning Skills","+450-500% Enhanced Damage","-10% to Enemy Lightning Resistance","+25% to Lightning Skill Damage","+20 to Thunder Storm","+20% Deadly Strike","+80% Increased Attack Speed"]},
+  {name:"Zephyr", active:true, sockets:2, bases:"Missile Weapon, Throwing, Javelin", runes:"Ort + Eth", stats:["+50% Faster Run/Walk","+50% Increased Attack Speed","+200-250% Enhanced Damage","+100 to Attack Rating","6% Chance to cast Level 10 Twister on Struck","33% Piercing Attack","Level 3 Blessed Aim Aura When Equipped"]}
+];
 
-    <section id="bosses" class="section">
-      <h2>👹 Boss & Khu vực</h2>
-      <p>
-        - Thêm nhiều khu vực ẩn (Secret Areas).<br>
-        - Boss có AI và cơ chế chiến đấu riêng biệt.<br>
-        - Khiêu chiến boss để nhận vật phẩm độc quyền và phần thưởng đặc biệt.
-      </p>
-    </section>
+const grid = document.getElementById('rwGrid');
+const searchInput = document.getElementById('searchInput');
+const typeFilter = document.getElementById('typeFilter');
+const socketFilter = document.getElementById('socketFilter');
+const statusFilter = document.getElementById('statusFilter');
+const countDisplay = document.getElementById('countDisplay');
 
-    <section id="about" class="section">
-      <h2>📜 Về dự án</h2>
-      <p>
-        Dự án <b>D2VM</b> được phát triển bởi cộng đồng người hâm mộ Diablo II Việt Nam.  
-        Mục tiêu: Giữ nguyên tinh thần Diablo II cổ điển nhưng mở rộng thế giới và thử thách hơn.  
-        Mọi đóng góp, phản hồi và ý tưởng đều được chào đón tại <a href="https://github.com/philong2016/diablo2-D2VM-wiki" style="color:#ffb347;">GitHub Repo</a>.
-      </p>
-    </section>
+function renderRunewords() {
+    const query = searchInput.value.toLowerCase().trim();
+    const typeVal = typeFilter.value;
+    const sockVal = socketFilter.value;
+    const statusVal = statusFilter.value;
 
-    <footer>
-      © 2025 D2VM Mod Team | Designed by Long Phi
-    </footer>
-  </main>
+    const filtered = RUNEWORDS.filter(rw => {
+        if (statusVal !== 'ALL') {
+            const isAct = statusVal === '1';
+            if (rw.active !== isAct) return false;
+        }
+        if (sockVal !== 'ALL' && rw.sockets !== parseInt(sockVal)) {
+            return false;
+        }
+        if (typeVal !== 'ALL') {
+            const b = rw.bases.toLowerCase();
+            if (typeVal === 'Weapon') {
+                const weaponKeywords = ['weapon', 'sword', 'axe', 'mace', 'scepter', 'staff', 'wand', 'dagger', 'claw', 'orb', 'javelin', 'throwing'];
+                if (!weaponKeywords.some(k => b.includes(k))) return false;
+            } else if (typeVal === 'Helm') {
+                if (!b.includes('helm') && !b.includes('pelt')) return false;
+            } else if (typeVal === 'Shield') {
+                if (!b.includes('shield')) return false;
+            } else {
+                if (!b.includes(typeVal.toLowerCase())) return false;
+            }
+        }
+        if (query) {
+            const hayStack = (rw.name + ' ' + rw.runes + ' ' + rw.bases + ' ' + rw.stats.join(' ')).toLowerCase();
+            const terms = query.split(/\s+/);
+            if (!terms.every(t => hayStack.includes(t))) return false;
+        }
+        return true;
+    });
+
+    countDisplay.textContent = `Showing ${filtered.length} of ${RUNEWORDS.length} Runewords`;
+
+    grid.innerHTML = filtered.map(rw => `
+        <div class="rw-card">
+            <span class="rw-badge ${rw.active ? 'badge-active' : 'badge-inactive'}">
+                ${rw.active ? 'Active' : 'Disabled'}
+            </span>
+            <div class="rw-title">${rw.name}</div>
+            <div class="rw-recipe">'${rw.runes.replace(/ \+ /g, '')}' (${rw.runes})</div>
+            <div class="rw-base">${rw.sockets} Socket <span>${rw.bases}</span></div>
+            <ul class="rw-props">
+                ${rw.stats.map(s => `<li>${s}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('');
+}
+
+function downloadSelf() {
+    const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "D2_Mod_Runewords.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+searchInput.addEventListener('input', renderRunewords);
+typeFilter.addEventListener('change', renderRunewords);
+socketFilter.addEventListener('change', renderRunewords);
+statusFilter.addEventListener('change', renderRunewords);
+
+renderRunewords();
+</script>
+
 </body>
 </html>
